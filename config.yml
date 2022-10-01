@@ -1,0 +1,32 @@
+--- 
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install python, pip and java package to Ubuntu
+    apt:
+     name: 
+       - python3
+       - python3-pip
+       - openjdk-11-jdk
+     state: latest
+     update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: install python, pip and java package to CentOS
+    dnf:
+     name: 
+       - python3
+       - python3-pip
+       - java-11-openjdk-devel
+     state: latest
+     update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: Banner Motd
+    debug:
+     msg: "Ansible Managed node by Jaraula"
+
+  - name: Create a User
+    ansible.builtin.user:
+     name: Christian
